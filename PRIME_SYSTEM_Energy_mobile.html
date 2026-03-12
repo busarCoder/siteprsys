@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0d0f14">
+<title>PRIME SYSTEM · Модуль 1: Энергия</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #0d0f14;
+  --bg2: #141720;
+  --bg3: #1c2030;
+  --accent: #c9a84c;
+  --accent2: #e8c97a;
+  --teal: #2a9d8f;
+  --teal2: #3dbdad;
+  --text: #e8eaf0;
+  --muted: #8a8fa8;
+  --danger: #e05252;
+  --border: rgba(201,168,76,0.15);
+  --r: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ─────────────────────────────────────────── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--teal2));
+  width: 0%; z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ── NAV ──────────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,20,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  display: flex; align-items: center; gap: 12px;
+  height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+
+.nav-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+
+.nav-links {
+  display: flex; gap: 6px; flex-shrink: 0;
+}
+
+.nav-link {
+  font-size: 12px; font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent);
+  border-color: var(--border);
+  background: rgba(201,168,76,0.08);
+}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero {
+  padding: 60px 20px 40px;
+  text-align: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 22vw, 120px);
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 50%, #a07030 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+
+.hero-sub {
+  font-size: 14px; color: var(--muted);
+  font-style: italic; letter-spacing: 0.5px;
+  margin-bottom: 36px;
+}
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px; max-width: 380px; margin: 0 auto;
+}
+
+.stat-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; color: var(--accent);
+  line-height: 1;
+}
+.stat-lbl { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+
+/* ── CONTENT WRAPPER ──────────────────────────────────────── */
+.content { max-width: 640px; margin: 0 auto; padding: 0 16px 80px; }
+
+/* ── SECTION ──────────────────────────────────────────────── */
+.section { padding-top: 56px; }
+
+.section-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+
+.section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; letter-spacing: 3px;
+  color: var(--accent); opacity: 0.7;
+}
+
+.section-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 8vw, 48px);
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 16px; font-weight: 700;
+  color: var(--accent2);
+  margin: 32px 0 12px;
+  letter-spacing: 0.3px;
+}
+
+p { margin-bottom: 14px; color: var(--text); font-weight: 400; }
+
+/* ── PULL QUOTE ───────────────────────────────────────────── */
+.pull-quote {
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  margin: 24px 0;
+  background: rgba(201,168,76,0.05);
+  border-radius: 0 var(--r) var(--r) 0;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent2);
+  line-height: 1.6;
+}
+
+/* ── INFO BLOCK ───────────────────────────────────────────── */
+.info-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.info-block-title {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+
+.info-block ul { list-style: none; }
+.info-block li {
+  padding: 6px 0;
+  padding-left: 18px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.info-block li:last-child { border-bottom: none; }
+.info-block li::before {
+  content: '·';
+  position: absolute; left: 0;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* ── STAT BAR ─────────────────────────────────────────────── */
+.stat-bar {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin: 24px 0;
+}
+
+.stat-bar-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 10px;
+  text-align: center;
+}
+
+.stat-bar-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; color: var(--accent);
+  line-height: 1;
+}
+.stat-bar-lbl { font-size: 10px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+
+/* ── TABLE ────────────────────────────────────────────────── */
+.table-wrap { margin: 20px 0; overflow: hidden; border-radius: var(--r); border: 1px solid var(--border); }
+
+.mobile-table { width: 100%; }
+
+.mobile-table .thead {
+  background: var(--accent);
+  display: grid;
+  padding: 10px 14px;
+}
+.mobile-table .thead span {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--bg);
+}
+
+.table-row {
+  display: grid;
+  padding: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  gap: 6px;
+}
+.table-row:last-child { border-bottom: none; }
+.table-row:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+.row-label {
+  font-size: 12px; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.row-value { font-size: 14px; color: var(--text); line-height: 1.5; }
+.row-sub { font-size: 13px; color: var(--muted); }
+
+/* ── PROTOCOL BOX ─────────────────────────────────────────── */
+.protocol-box {
+  background: var(--bg2);
+  border: 1px solid var(--teal);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.protocol-title {
+  background: var(--teal);
+  padding: 12px 18px;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: white;
+}
+
+.protocol-step {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(42,157,143,0.2);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.protocol-step:last-child { border-bottom: none; }
+
+.step-label {
+  font-size: 11px; font-weight: 800;
+  color: var(--teal2); text-transform: uppercase;
+  letter-spacing: 1px; flex-shrink: 0;
+  min-width: 70px; padding-top: 2px;
+}
+
+.step-text { font-size: 14px; line-height: 1.55; color: var(--text); }
+
+/* ── ACCORDION (CHECKLIST / ЗАДАНИЯ) ─────────────────────── */
+.accordion { margin: 20px 0; }
+
+.accordion-trigger {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+.accordion-trigger:hover { background: var(--bg3); }
+.accordion-trigger[aria-expanded="true"] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: var(--teal);
+}
+
+.acc-title {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent2);
+}
+
+.acc-icon {
+  width: 24px; height: 24px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.acc-icon svg { transition: transform 0.3s; }
+.accordion-trigger[aria-expanded="true"] .acc-icon svg { transform: rotate(180deg); }
+
+.accordion-body {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-bottom-left-radius: var(--r);
+  border-bottom-right-radius: var(--r);
+  padding: 16px 18px;
+}
+.accordion-body.open { display: block; }
+
+/* ── CHECKLIST ────────────────────────────────────────────── */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px;
+  cursor: pointer;
+}
+.checklist li:last-child { border-bottom: none; }
+
+.check-box {
+  width: 22px; height: 22px; flex-shrink: 0;
+  border: 2px solid var(--accent);
+  border-radius: 5px;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.check-box.done {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.check-box.done::after {
+  content: '✓';
+  font-size: 13px; font-weight: 800;
+  color: var(--bg);
+}
+.checklist li.done-item .check-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* ── DIAGNOSTIC INTERACTIVE ───────────────────────────────── */
+.diagnostic {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.diagnostic-q {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.diagnostic-q:last-of-type { border-bottom: none; }
+
+.q-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+.q-num { font-size: 11px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 2px; }
+
+.q-options {
+  display: flex; gap: 8px;
+}
+
+.q-btn {
+  flex: 1;
+  padding: 8px 4px;
+  background: var(--bg3);
+  border: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 12px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  line-height: 1.2;
+}
+.q-btn:hover { border-color: var(--accent); color: var(--accent); }
+.q-btn.sel {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--accent);
+  color: var(--accent2);
+}
+
+.q-labels {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--muted);
+  padding: 0 2px;
+}
+
+.score-result {
+  padding: 20px 18px;
+  text-align: center;
+  background: var(--bg3);
+  border-top: 1px solid var(--border);
+  display: none;
+}
+.score-result.show { display: block; }
+
+.score-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 64px; line-height: 1;
+  color: var(--accent);
+}
+.score-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.score-desc { font-size: 14px; margin-top: 12px; color: var(--text); }
+
+.score-bar-wrap { height: 8px; background: var(--bg); border-radius: 4px; margin: 16px 0 8px; overflow: hidden; }
+.score-bar { height: 100%; border-radius: 4px; transition: width 0.8s ease; background: linear-gradient(90deg, var(--danger), var(--accent), var(--teal2)); }
+
+/* ── KEY INSIGHT ──────────────────────────────────────────── */
+.key-insight {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03));
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  margin: 20px 0;
+  font-size: 15px; font-weight: 600;
+  color: var(--accent2); line-height: 1.6;
+}
+.key-insight-label {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 8px;
+}
+
+/* ── WEEKLY MATRIX ────────────────────────────────────────── */
+.week-grid { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+.week-day {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.day-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: var(--accent);
+  min-width: 36px; line-height: 1;
+}
+.day-info { flex: 1; }
+.day-type { font-size: 14px; font-weight: 600; color: var(--text); }
+.day-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.day-goal { font-size: 11px; color: var(--teal2); margin-top: 3px; font-weight: 600; }
+
+/* ── TRACKER ──────────────────────────────────────────────── */
+.tracker-wrap { margin: 20px 0; }
+.tracker-habit {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.tracker-habit-name { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+.tracker-days { display: flex; gap: 6px; flex-wrap: wrap; }
+.tracker-day {
+  width: 34px; height: 34px;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tracker-day:hover { border-color: var(--accent); }
+.tracker-day.done { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.tracker-day.partial { background: rgba(201,168,76,0.2); border-color: var(--accent); color: var(--accent); }
+
+/* ── TRANSFORM TABLE ──────────────────────────────────────── */
+.transform-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.transform-area { font-size: 13px; font-weight: 700; color: var(--accent2); margin-bottom: 4px; }
+.transform-what { font-size: 13px; color: var(--text); margin-bottom: 10px; }
+.transform-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.transform-input:focus { border-color: var(--accent); }
+.transform-input::placeholder { color: var(--muted); }
+
+/* ── DANGER TAG ───────────────────────────────────────────── */
+.danger-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 4px;
+  margin-bottom: 4px;
+}
+.danger-tag.crit { background: rgba(224,82,82,0.2); color: #e05252; }
+.danger-tag.high { background: rgba(201,168,76,0.2); color: var(--accent); }
+.danger-tag.med { background: rgba(255,255,255,0.08); color: var(--muted); }
+
+/* ── AUTHOR VOICE ─────────────────────────────────────────── */
+.author-note {
+  background: rgba(42,157,143,0.07);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 14px; color: var(--text);
+  line-height: 1.6;
+}
+.author-note-label {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--teal2); margin-bottom: 8px;
+}
+
+/* ── DIVIDER ──────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+/* ── TRANSITION NOTE ──────────────────────────────────────── */
+.transition-note {
+  font-size: 13px; color: var(--muted);
+  font-style: italic;
+  padding: 10px 0 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 20px;
+}
+
+/* ── FINAL BLOCK ──────────────────────────────────────────── */
+.final-action {
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: var(--r);
+  padding: 24px 20px;
+  margin: 24px 0;
+}
+.final-action-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; color: var(--accent);
+  letter-spacing: 2px; margin-bottom: 14px;
+}
+.final-action input {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-top: 8px;
+  transition: border-color 0.2s;
+}
+.final-action input:focus { border-color: var(--accent); }
+.final-action input::placeholder { color: var(--muted); }
+
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+
+/* ── SCROLLTOP ────────────────────────────────────────────── */
+#scrolltop {
+  position: fixed; bottom: 20px; right: 16px;
+  width: 44px; height: 44px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 200;
+  border: none;
+}
+#scrolltop.show { opacity: 1; pointer-events: auto; }
+#scrolltop svg { color: var(--bg); }
+
+/* ── PERSONAL PATH TABLE ──────────────────────────────────── */
+.path-row {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.path-profile { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.path-priority { font-size: 14px; color: var(--text); margin-bottom: 6px; }
+.path-action {
+  font-size: 12px; color: var(--teal2);
+  background: rgba(42,157,143,0.08);
+  padding: 6px 10px; border-radius: 6px;
+  font-weight: 600;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (min-width: 480px) {
+  .hero-stats { max-width: 440px; }
+  .tracker-days { gap: 8px; }
+  .tracker-day { width: 38px; height: 38px; }
+}
+
+/* ── FADE IN ──────────────────────────────────────────────── */
+.section { opacity: 0; transform: translateY(16px); animation: fadeUp 0.5s ease forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: none; } }
+.section:nth-child(2) { animation-delay: 0.05s; }
+.section:nth-child(3) { animation-delay: 0.1s; }
+.section:nth-child(4) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <span class="nav-brand">PRIME</span>
+  <div class="nav-sep"></div>
+  <div class="nav-links">
+    <a href="#s01" class="nav-link">Введение</a>
+    <a href="#s02" class="nav-link">Фундамент</a>
+    <a href="#s03" class="nav-link">Диагностика</a>
+    <a href="#s04" class="nav-link">Механика</a>
+    <a href="#s05" class="nav-link">Сон</a>
+    <a href="#s06" class="nav-link">Движение</a>
+    <a href="#s07" class="nav-link">Фокус</a>
+    <a href="#s08" class="nav-link">Питание</a>
+    <a href="#s09" class="nav-link">Ошибки</a>
+    <a href="#s10" class="nav-link">14 дней</a>
+    <a href="#s11" class="nav-link">Трекер</a>
+    <a href="#s12" class="nav-link">Итог</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">PRIME SYSTEM · МОДУЛЬ 1</div>
+  <div class="hero-title">ЭНЕРГИЯ</div>
+  <div class="hero-sub">Фундамент, на котором строится всё остальное</div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">разделов</div></div>
+    <div class="stat-item"><div class="stat-num">14</div><div class="stat-lbl">дней плана</div></div>
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-lbl">привычек</div></div>
+    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-lbl">протоколов</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══ 01 ВВЕДЕНИЕ ══════════════════════════════════════════ -->
+<div class="section" id="s01">
+  <div class="section-tag"><span class="section-num">01</span><span class="section-title">Введение</span></div>
+  <h1>Зачем тебе этот модуль</h1>
+  <div class="pull-quote">Всё, что ты строишь — карьеру, тело, отношения, дисциплину — стоит на одном фундаменте. Имя ему — энергия.</div>
+  <p>Ты просыпаешься уже уставшим. Тянешься к телефону раньше, чем встаёшь с кровати. К обеду голова тяжёлая, к 16:00 решений уже нет — только реакции. Вечером ты дома, но тебя нет: тело на месте, присутствия — ноль.</p>
+  <p>Ты называешь это «много работаю». Я называю это системным сбоем.</p>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Я прошёл через это. Несколько лет работал в режиме постоянного форсажа — и искренне считал, что так и должно быть. Пока не столкнулся с последствиями: гормональный провал, хроническое воспаление, нулевое восстановление даже после отпуска. Проблема была не в объёме работы. Проблема — в том, что я работал против своей биологии.
+  </div>
+
+  <p>Этот модуль — результат того, что я изучил, проверил на себе и внедрил в систему. Здесь нет мотивационных речей. Здесь — механика.</p>
+
+  <div class="info-block">
+    <div class="info-block-title">В этом модуле</div>
+    <ul>
+      <li>Механика энергии на уровне клеток, нейробиологии и психологии</li>
+      <li>Почему большинство мужчин теряют энергию системно — каждый день</li>
+      <li>Протоколы для сна, движения, питания и фокуса</li>
+      <li>Диагностика твоего состояния с числовым баллом</li>
+      <li>14-дневный план внедрения без насилия над собой</li>
+      <li>10+ протоколов и мини-систем для немедленного внедрения</li>
+    </ul>
+  </div>
+
+  <p style="font-weight:600; color: var(--accent2);">Читай медленно. Делай пометки. Внедряй.</p>
+</div>
+
+<!-- ══ 02 ФУНДАМЕНТ ═════════════════════════════════════════ -->
+<div class="section" id="s02">
+  <div class="section-tag"><span class="section-num">02</span><span class="section-title">Фундамент</span></div>
+  <h1>Почему энергия — фундамент жизни</h1>
+  <div class="pull-quote">Ты не устаёшь потому что много работаешь. Ты устаёшь потому что работаешь против своей биологии.</div>
+
+  <p>Витальность — это не просто отсутствие усталости. Это активный ресурс: ощущение живости, энтузиазм, наличие сил для действия. Когда он есть — ты строишь. Когда его нет — ты выживаешь.</p>
+  <p>Мозг составляет 2% массы тела, но потребляет около 20% всей энергии организма. Каждое решение, каждый разговор, каждая мысль — это расход АТФ. Когда топливо заканчивается, падает всё: концентрация, воля, терпение, либидо, иммунитет.</p>
+
+  <h2>Пять уровней разрушения без энергии</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label">Когнитивный</div><div class="row-value">Снижение памяти и концентрации, decision fatigue, мышление становится «транзакционным»</div></div>
+      <div class="table-row"><div class="row-label">Психологический</div><div class="row-value">Раздражительность, потеря мотивации, риск выгорания и депрессии</div></div>
+      <div class="table-row"><div class="row-label">Физический</div><div class="row-value">Хроническая усталость, ослабленный иммунитет, ускоренное старение митохондрий</div></div>
+      <div class="table-row"><div class="row-label">Гормональный</div><div class="row-value">Снижение тестостерона, хронически повышенный кортизол, нарушение либидо</div></div>
+      <div class="table-row"><div class="row-label">Социальный</div><div class="row-value">Избегание людей, конфликты, отсутствие присутствия с теми, кто важен</div></div>
+    </div>
+  </div>
+
+  <h2>Почему это важно именно для мужчины</h2>
+  <p>Тестостерон и митохондрии связаны напрямую: многие нутриенты — цинк, магний — участвуют и в выработке АТФ, и в синтезе тестостерона. Истощённая система означает гормональный дефицит. Это не метафора — это биохимия.</p>
+  <p>Лидерство требует энергии. В переговорах, в управлении командой, в принятии решений под давлением — энергия решает исход. Уставший человек принимает консервативные, оборонительные решения. Человек с ресурсом — действует.</p>
+  <p>Присутствие — это тоже энергия. Уставший мужчина физически присутствует, но его нет. Ни в разговоре с сыном, ни в моменте с партнёром, ни в ключевой встрече.</p>
+
+  <div class="key-insight">
+    <div class="key-insight-label">Ключевая мысль</div>
+    Энергия — не бонус для тех, кто успел отдохнуть. Это базовая валюта. Всё остальное — надстройка.
+  </div>
+
+  <p class="transition-note">Дальше — механика этой системы. То, что ты узнаешь в разделе 04, объяснит всё, что ты делаешь в разделах 05–09.</p>
+</div>
+
+<!-- ══ 03 ДИАГНОСТИКА ════════════════════════════════════════ -->
+<div class="section" id="s03">
+  <div class="section-tag"><span class="section-num">03</span><span class="section-title">Диагностика</span></div>
+  <h1>Твой Energy Score</h1>
+  <p>Прежде чем менять систему — измерь её. Честно ответь на 10 вопросов. Заполни сейчас и через 14 дней — разрыв между замерами твой реальный прогресс.</p>
+
+  <div class="diagnostic" id="diagnostic">
+    <div class="diagnostic-q">
+      <div><div class="q-num">01</div><div class="q-text">Просыпаюсь отдохнувшим, без ощущения разбитости</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(0,0)">0<br><span style="font-weight:400;font-size:10px">никогда</span></button>
+        <button class="q-btn" onclick="setQ(0,1)">1<br><span style="font-weight:400;font-size:10px">иногда</span></button>
+        <button class="q-btn" onclick="setQ(0,2)">2<br><span style="font-weight:400;font-size:10px">часто</span></button>
+        <button class="q-btn" onclick="setQ(0,3)">3<br><span style="font-weight:400;font-size:10px">всегда</span></button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">02</div><div class="q-text">Стабильный уровень энергии в течение дня — без резких провалов</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(1,0)">0</button><button class="q-btn" onclick="setQ(1,1)">1</button><button class="q-btn" onclick="setQ(1,2)">2</button><button class="q-btn" onclick="setQ(1,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">03</div><div class="q-text">Могу концентрироваться на сложной задаче 60+ минут без рассеивания</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(2,0)">0</button><button class="q-btn" onclick="setQ(2,1)">1</button><button class="q-btn" onclick="setQ(2,2)">2</button><button class="q-btn" onclick="setQ(2,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">04</div><div class="q-text">Не нужен кофе сразу после подъёма, чтобы «включиться»</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(3,0)">0</button><button class="q-btn" onclick="setQ(3,1)">1</button><button class="q-btn" onclick="setQ(3,2)">2</button><button class="q-btn" onclick="setQ(3,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">05</div><div class="q-text">Регулярная физическая активность — минимум 3 раза в неделю</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(4,0)">0</button><button class="q-btn" onclick="setQ(4,1)">1</button><button class="q-btn" onclick="setQ(4,2)">2</button><button class="q-btn" onclick="setQ(4,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">06</div><div class="q-text">Засыпаю за 20 минут, сплю 7–9 часов без частых пробуждений</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(5,0)">0</button><button class="q-btn" onclick="setQ(5,1)">1</button><button class="q-btn" onclick="setQ(5,2)">2</button><button class="q-btn" onclick="setQ(5,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">07</div><div class="q-text">Рабочие сессии структурированы — работаю блоками с паузами</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(6,0)">0</button><button class="q-btn" onclick="setQ(6,1)">1</button><button class="q-btn" onclick="setQ(6,2)">2</button><button class="q-btn" onclick="setQ(6,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">08</div><div class="q-text">Достаточно пью воды в течение дня (≈ 30 мл на 1 кг веса)</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(7,0)">0</button><button class="q-btn" onclick="setQ(7,1)">1</button><button class="q-btn" onclick="setQ(7,2)">2</button><button class="q-btn" onclick="setQ(7,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">09</div><div class="q-text">Вечером расслаблен, не тревожен, легко отключаюсь от работы</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(8,0)">0</button><button class="q-btn" onclick="setQ(8,1)">1</button><button class="q-btn" onclick="setQ(8,2)">2</button><button class="q-btn" onclick="setQ(8,3)">3</button>
+      </div>
+    </div>
+    <div class="diagnostic-q">
+      <div><div class="q-num">10</div><div class="q-text">Питание стабильно: нет скачков сахара, голода и переедания</div></div>
+      <div class="q-options">
+        <button class="q-btn" onclick="setQ(9,0)">0</button><button class="q-btn" onclick="setQ(9,1)">1</button><button class="q-btn" onclick="setQ(9,2)">2</button><button class="q-btn" onclick="setQ(9,3)">3</button>
+      </div>
+    </div>
+    <div class="score-result" id="score-result">
+      <div class="score-bar-wrap"><div class="score-bar" id="score-bar" style="width:0%"></div></div>
+      <div class="score-num" id="score-num">0</div>
+      <div class="score-label" id="score-label">из 30</div>
+      <div class="score-desc" id="score-desc"></div>
+    </div>
+  </div>
+
+  <h2>Твой персональный маршрут</h2>
+  <p>Используй результат диагностики, чтобы определить с чего начать — до того как дочитаешь до конца.</p>
+
+  <div class="path-row">
+    <div class="path-profile">Вопросы 1, 6 — низко</div>
+    <div class="path-priority">Сон разрушает всё остальное</div>
+    <div class="path-action">→ Раздел 05 первым. Ничего другого, пока сон не стабилен.</div>
+  </div>
+  <div class="path-row">
+    <div class="path-profile">Вопросы 3, 7 — низко</div>
+    <div class="path-priority">Фокус рассеян, рабочее время тратится впустую</div>
+    <div class="path-action">→ Раздел 07. 90-минутный спринт завтра утром.</div>
+  </div>
+  <div class="path-row">
+    <div class="path-profile">Вопросы 2, 10 — низко</div>
+    <div class="path-priority">Питание создаёт энергетические качели</div>
+    <div class="path-action">→ Раздел 08. Порядок приёмов пищи и кофеиновое окно.</div>
+  </div>
+  <div class="path-row">
+    <div class="path-profile">Вопрос 5 — низко</div>
+    <div class="path-priority">Нет движения — нет митохондриального топлива</div>
+    <div class="path-action">→ Раздел 06. 35 минут Zone 2 сегодня или завтра.</div>
+  </div>
+  <div class="path-row">
+    <div class="path-profile">Всё ниже 10 баллов</div>
+    <div class="path-priority">Система на резервах — всё взаимосвязано</div>
+    <div class="path-action">→ Только ежедневный минимум первые 7 дней.</div>
+  </div>
+</div>
+
+<!-- ══ 04 МЕХАНИКА ══════════════════════════════════════════ -->
+<div class="section" id="s04">
+  <div class="section-tag"><span class="section-num">04</span><span class="section-title">Механика</span></div>
+  <h1>Как работает энергия</h1>
+  <div class="pull-quote">Хочешь больше энергии — перестань бороться с биологией. Начни её использовать.</div>
+
+  <h2>Митохондрии: твои энергетические станции</h2>
+  <p>В каждой клетке — митохондрии. Они берут питательные вещества и кислород и производят АТФ — универсальную энергетическую валюту организма. Без АТФ не работает ничто: ни мышцы, ни нейроны, ни иммунная система.</p>
+  <p>Чем здоровее и многочисленнее твои митохондрии — тем больше твой «бензобак». Физические нагрузки (особенно Zone 2) запускают митохондриальный биогенез — строительство новых митохондрий. Это механизм, подтверждённый в сотнях исследований.</p>
+
+  <div class="info-block">
+    <div class="info-block-title">Кофакторы митохондрий</div>
+    <ul>
+      <li><strong>Магний</strong> — активирует молекулы АТФ. Без него энергия синтезирована, но не может быть использована.</li>
+      <li><strong>Коэнзим Q10</strong> — транспортёр электронов в дыхательной цепи. После 30 лет уровень снижается.</li>
+      <li><strong>Витамины группы B</strong> (B1, B2, B3, B5) — незаменимые участники цикла Кребса — основного пути синтеза АТФ.</li>
+      <li><strong>Железо</strong> — переносит кислород к клеткам. Дефицит = хроническая усталость даже при нормальном сне.</li>
+    </ul>
+  </div>
+
+  <h2>Два ритма, которые управляют твоей жизнью</h2>
+  <p><strong>Циркадные ритмы (24 ч).</strong> Регулируются светом. Утренний свет запускает выброс кортизола — гормона бодрости. Вечерняя темнота сигнализирует о выработке мелатонина. Нарушение этого ритма повышает риск метаболических нарушений, снижает тестостерон, разрушает иммунитет.</p>
+  <p><strong>Ультрадианные ритмы (90–120 мин).</strong> Мозг работает в естественных циклах высокой и низкой активности. После 90 минут активной работы наступает фаза спада. Если давить дальше — кортизол и выгорание.</p>
+
+  <h2>Нейробиология фокуса</h2>
+  <p>Префронтальная кора (ПФК) — твой командный центр. Она работает на ресурсе, который истощается в течение дня. Каждое переключение между задачами, каждое уведомление — это расход ресурса ПФК.</p>
+  <p>Когда ресурс заканчивается — включается миндалина: реактивность, импульсивность, раздражение. Это физиология, а не слабость характера.</p>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">📝 Практика: Аудит утечек</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:14px; margin-bottom:14px;">Сегодня вечером запиши 3 главных утечки своей энергии за день. Что опустошило больше всего?</p>
+      <textarea class="transform-input" rows="2" placeholder="Утечка 1..."></textarea>
+      <textarea class="transform-input" rows="2" placeholder="Утечка 2..." style="margin-top:8px;"></textarea>
+      <textarea class="transform-input" rows="2" placeholder="Утечка 3..." style="margin-top:8px;"></textarea>
+      <p style="font-size:12px; color:var(--muted); margin-top:12px; font-style:italic;">Это не жалоба. Это диагностика. Без диагностики нет системы.</p>
+    </div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Когда я впервые сделал этот аудит, обнаружил: три главных утечки у меня были одинаковыми каждый день. Три простых изменения дали результат за неделю. Твои утечки будут другими — но паттерн тот же: несколько точек сливают большую часть ресурса.
+  </div>
+  <p class="transition-note">Следующий раздел — сон. Это фундамент, с которого начинается или рушится всё остальное.</p>
+</div>
+
+<!-- ══ 05 СОН ════════════════════════════════════════════════ -->
+<div class="section" id="s05">
+  <div class="section-tag"><span class="section-num">05</span><span class="section-title">Сон</span></div>
+  <h1>Протокол восстановления</h1>
+  <div class="pull-quote">Сон — не потеря времени. Это когда тело чинится, мозг перезагружается, а гормоны перебалансируются.</div>
+
+  <p>Систематический недосып повышает кортизол, снижает тестостерон, разрушает когнитивные функции — и ни один другой протокол это не компенсирует.</p>
+
+  <div class="stat-bar">
+    <div class="stat-bar-item"><div class="stat-bar-num">20–25%</div><div class="stat-bar-lbl">снижение тестостерона после 5 ночей по 5 часов</div></div>
+    <div class="stat-bar-item"><div class="stat-bar-num">40%</div><div class="stat-bar-lbl">снижение когнитивной эффективности при недосыпе</div></div>
+    <div class="stat-bar-item"><div class="stat-bar-num">7–9 ч</div><div class="stat-bar-lbl">научно обоснованная норма для мужчины</div></div>
+  </div>
+
+  <h2>Что разрушает сон — по критичности</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row">
+        <div><span class="danger-tag crit">Критично</span></div>
+        <div class="row-label">Синий свет за 1–2 ч до сна</div>
+        <div class="row-value">Подавляет синтез мелатонина — мозг не получает сигнал к режиму восстановления</div>
+      </div>
+      <div class="table-row">
+        <div><span class="danger-tag crit">Критично</span></div>
+        <div class="row-label">Алкоголь</div>
+        <div class="row-value">Засыпаешь быстрее, но подавляется REM-сон. Кажется, что поспал — а не восстановился.</div>
+      </div>
+      <div class="table-row">
+        <div><span class="danger-tag high">Высокий</span></div>
+        <div class="row-label">Кофеин после 14:00</div>
+        <div class="row-value">Период полувыведения 5–7 часов. Кофе в 16:00 = половина дозы активна в 23:00</div>
+      </div>
+      <div class="table-row">
+        <div><span class="danger-tag high">Высокий</span></div>
+        <div class="row-label">Телефон в постели</div>
+        <div class="row-value">Синий свет + информационный поток активирует миндалину — тревога вместо отдыха</div>
+      </div>
+      <div class="table-row">
+        <div><span class="danger-tag med">Средний</span></div>
+        <div class="row-label">HIIT поздно вечером</div>
+        <div class="row-value">Повышает температуру тела и симпатическую активность минимум на 3–4 часа</div>
+      </div>
+      <div class="table-row">
+        <div><span class="danger-tag med">Средний</span></div>
+        <div class="row-label">Спальня теплее 22°C</div>
+        <div class="row-value">Тело должно снизить температуру ядра на 1–2°C для засыпания</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Протокол сна — пошагово</h2>
+  <div class="protocol-box">
+    <div class="protocol-title">ПРОТОКОЛ · СОН</div>
+    <div class="protocol-step"><span class="step-label">Утро</span><span class="step-text">10–15 минут яркого света в первые 30–60 минут. До кофе, до телефона. Запускает кортизольный пик для бодрости.</span></div>
+    <div class="protocol-step"><span class="step-label">День</span><span class="step-text">Последний кофе до 14:00. При ощущении спада в 13–15 ч — это нормальный циркадный спад, не повод для кофеина.</span></div>
+    <div class="protocol-step"><span class="step-label">Вечер</span><span class="step-text">За 2 часа — приглушить верхний свет. За 1 час — убрать экраны. Тёплое освещение 2700K и ниже.</span></div>
+    <div class="protocol-step"><span class="step-label">Спальня</span><span class="step-text">Температура 18–20°C. Полная темнота (блэкаут или маска). Тишина или белый шум.</span></div>
+    <div class="protocol-step"><span class="step-label">До сна</span><span class="step-text">Brain dump: задачи на завтра + 3 вещи, за которые благодарен. Выгружает активные петли из рабочей памяти.</span></div>
+  </div>
+
+  <h2>Power Nap: дневное восстановление</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label" style="color:var(--teal2);">✓ Идеально</div><div class="row-value"><strong>10–20 минут</strong> — лёгкая дремота без входа в медленный сон. Перезагрузка без инерции.</div></div>
+      <div class="table-row"><div class="row-label" style="color:var(--teal2);">✓ Оптимально</div><div class="row-value"><strong>26 минут</strong> — формат NASA. Максимальное восстановление когнитивных функций.</div></div>
+      <div class="table-row"><div class="row-label" style="color:var(--danger);">✗ Не делай</div><div class="row-value"><strong>30+ минут</strong> — вход в глубокий сон. Проснёшься разбитым — инерция сна.</div></div>
+    </div>
+  </div>
+
+  <h2>Вечерний Shutdown</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label">За 60 мин</div><div class="row-value">Закрой рабочие вкладки. Запиши незакрытые задачи на завтра.</div><div class="row-sub">Мозг перестаёт удерживать активные петли — снижается руминация</div></div>
+      <div class="table-row"><div class="row-label">За 45 мин</div><div class="row-value">Приглуши свет. Тёплое освещение. Никакого верхнего.</div><div class="row-sub">Запускает синтез мелатонина</div></div>
+      <div class="table-row"><div class="row-label">За 30 мин</div><div class="row-value">Не читай новости и рабочую почту. Книга, спокойный разговор.</div><div class="row-sub">Снижает активацию миндалины</div></div>
+      <div class="table-row"><div class="row-label">За 10 мин</div><div class="row-value">Brain dump + «День закрыт».</div><div class="row-sub">Психологическое завершение — сон как восстановление</div></div>
+    </div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">АВАРИЙНЫЙ СОН · Если лёг после 01:00</div>
+    <div class="protocol-step"><span class="step-label">1</span><span class="step-text">Не меняй время подъёма. Одна плохая ночь не разрушит систему. Сдвинутый подъём — разрушит.</span></div>
+    <div class="protocol-step"><span class="step-label">2</span><span class="step-text">Утром — обязательный световой якорь. Поможет быстрее заснуть следующим вечером.</span></div>
+    <div class="protocol-step"><span class="step-label">3</span><span class="step-text">Power Nap 20–26 минут в 13–14 часов. Частично компенсирует дефицит.</span></div>
+    <div class="protocol-step"><span class="step-label">4</span><span class="step-text">Следующий вечер — строгий протокол. Один пропуск не проблема. Два подряд — уже паттерн.</span></div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">✓ Чек-лист · Сон</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <ul class="checklist" id="cl-sleep">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Нет экранов за 1 час до сна</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Тёплый свет вечером (лампа, не верхний)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Температура спальни 18–20°C</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Полная темнота (шторы блэкаут или маска)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Написал задачи на завтра (brain dump)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Последний кофе до 14:00</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Утром — 10+ минут яркого света</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Подъём в одно время (включая выходные)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Когда я убрал телефон из спальни и добавил утренний световой якорь — качество сна изменилось за 4 дня. Не за месяц. Это самое дешёвое и быстрое изменение в этом модуле.
+  </div>
+  <p class="transition-note">Сон даёт ресурс. Движение — строит ёмкость под этот ресурс. Следующий раздел.</p>
+</div>
+
+<!-- ══ 06 ДВИЖЕНИЕ ══════════════════════════════════════════ -->
+<div class="section" id="s06">
+  <div class="section-tag"><span class="section-num">06</span><span class="section-title">Движение</span></div>
+  <h1>Генерация ресурса</h1>
+  <div class="pull-quote">Физическая нагрузка — единственный доказанный способ строить новые митохондрии. Ты буквально увеличиваешь свой бензобак.</div>
+
+  <h2>Zone 2: строй свой двигатель</h2>
+  <p>ЧСС: 60–70% от максимума (≈ 220 минус твой возраст). Тест: говоришь предложениями, но чуть затрудняешься. Дышишь через нос.</p>
+  <p>Форматы: быстрая ходьба, лёгкий бег, велосипед, эллипс. Норма: 2–3 сессии по 30–45 минут в неделю. Первые изменения в митохондриях — через 4–6 недель.</p>
+
+  <h2>HIIT: повышай КПД</h2>
+  <p>1–2 раза в неделю. Формат: 20–30 сек максимального усилия, 90–120 сек восстановления, 6–10 повторений. Важно: минимум за 3–4 часа до сна.</p>
+
+  <h2>Микро-движения каждые 60 минут</h2>
+  <div class="protocol-box">
+    <div class="protocol-title">3-МИНУТНЫЙ СБРОС</div>
+    <div class="protocol-step"><span class="step-label">30 сек</span><span class="step-text">Встать, потрясти руками и плечами — сброс статического напряжения</span></div>
+    <div class="protocol-step"><span class="step-label">1 мин</span><span class="step-text">Круговые движения шеей и плечами — разгрузка шейного отдела</span></div>
+    <div class="protocol-step"><span class="step-label">1 мин</span><span class="step-text">Несколько приседаний или выпадов — активация крупных мышечных групп</span></div>
+    <div class="protocol-step"><span class="step-label">30 сек</span><span class="step-text">Дыхание: 4 сек вдох, 4 задержка, 6 выдох — активация парасимпатики</span></div>
+  </div>
+
+  <h2>Недельная матрица</h2>
+  <div class="week-grid">
+    <div class="week-day"><div class="day-name">Пн</div><div class="day-info"><div class="day-type">Zone 2 · ходьба/лёгкий бег</div><div class="day-detail">35–45 мин</div><div class="day-goal">Митохондриальный биогенез</div></div></div>
+    <div class="week-day"><div class="day-name">Вт</div><div class="day-info"><div class="day-type">Силовая или HIIT</div><div class="day-detail">30–45 мин</div><div class="day-goal">КПД митохондрий, гормональный отклик</div></div></div>
+    <div class="week-day"><div class="day-name">Ср</div><div class="day-info"><div class="day-type">Активное восстановление</div><div class="day-detail">20–30 мин · растяжка, прогулка</div><div class="day-goal">Снятие мышечного напряжения</div></div></div>
+    <div class="week-day"><div class="day-name">Чт</div><div class="day-info"><div class="day-type">Zone 2</div><div class="day-detail">35–45 мин</div><div class="day-goal">Митохондриальный биогенез</div></div></div>
+    <div class="week-day"><div class="day-name">Пт</div><div class="day-info"><div class="day-type">Силовая или HIIT</div><div class="day-detail">30–45 мин</div><div class="day-goal">КПД, тестостероновый отклик</div></div></div>
+    <div class="week-day"><div class="day-name">Сб</div><div class="day-info"><div class="day-type">Zone 2 / активный досуг</div><div class="day-detail">45–60 мин · велосипед, плавание</div><div class="day-goal">Длинная аэробная база</div></div></div>
+    <div class="week-day"><div class="day-name">Вс</div><div class="day-info"><div class="day-type">Полный отдых</div><div class="day-detail">20 мин max · лёгкая прогулка</div><div class="day-goal">Восстановление ЦНС</div></div></div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">МИНИМАЛЬНАЯ НЕДЕЛЯ · Когда времени нет</div>
+    <div class="protocol-step"><span class="step-label">Пн + Чт</span><span class="step-text">30 мин Zone 2 — быстрая ходьба. Можно во время звонков.</span></div>
+    <div class="protocol-step"><span class="step-label">Ежедневно</span><span class="step-text">Микродвижение каждые 60 минут — 3-минутный сброс. Техническое обслуживание.</span></div>
+    <div class="protocol-step"><span class="step-label">Душ</span><span class="step-text">30–60 сек холодной воды в конце. Занимает 0 дополнительных минут.</span></div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Zone 2 кажется слишком простой. Именно поэтому большинство её игнорирует. Я сам несколько месяцев делал только HIIT и силовые. Пока не добавил 3 прогулки по 40 минут — и через месяц обнаружил, что стабильная энергия в течение дня выровнялась. Это митохондрии.
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">✓ Чек-лист · Движение</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">2–3 тренировки Zone 2 в неделю (30–45 мин каждая)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">1–2 HIIT-сессии в неделю</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Микро-движение каждые 60 минут</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Тренировки не позже чем за 3 часа до сна</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Контрастный душ утром</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="transition-note">Тело заряжено. Теперь — как не слить этот заряд в первые 2 часа рабочего дня. Раздел 07.</p>
+</div>
+
+<!-- ══ 07 ФОКУС ══════════════════════════════════════════════ -->
+<div class="section" id="s07">
+  <div class="section-tag"><span class="section-num">07</span><span class="section-title">Фокус</span></div>
+  <h1>Психическая энергия</h1>
+  <div class="pull-quote">275 уведомлений в день. Каждое — это микростресс и расход ПФК. К вечеру командный центр мозга пуст.</div>
+
+  <p>Психическая энергия — ресурс префронтальной коры. Расходуется быстрее физической и восстанавливается медленнее. Когда кончается — ты действуешь из миндалины: реактивно, импульсивно, раздражённо.</p>
+
+  <h2>Ультрадианные спринты</h2>
+  <div class="protocol-box">
+    <div class="protocol-title">УЛЬТРАДИАННЫЙ СПРИНТ (90/20)</div>
+    <div class="protocol-step"><span class="step-label">Шаг 1</span><span class="step-text">Таймер на 90 минут. Одна задача. Никаких переключений.</span></div>
+    <div class="protocol-step"><span class="step-label">Шаг 2</span><span class="step-text">Уведомления — выключить. Не тихий режим. Выключить. Телефон лицом вниз или в другой комнате.</span></div>
+    <div class="protocol-step"><span class="step-label">Шаг 3</span><span class="step-text">15–20 минут отдыха без экранов. Прогулка, растяжка, взгляд в окно. Мозгу нужна расфокусировка — не переключение.</span></div>
+    <div class="protocol-step"><span class="step-label">Шаг 4</span><span class="step-text">Повторить 2–3 блока в день. Это потолок при максимальной когнитивной нагрузке. Больше — иллюзия работы.</span></div>
+  </div>
+
+  <h2>Матрица задач по энергозатратам</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label" style="color:var(--danger);">Очень высокие</div><div class="row-value"><strong>Глубокая работа</strong> — стратегия, анализ, сложные решения</div><div class="row-sub">→ Первый спринт утром (пик ПФК)</div></div>
+      <div class="table-row"><div class="row-label" style="color:var(--accent);">Средние</div><div class="row-value"><strong>Коммуникация</strong> — встречи, звонки, переписка</div><div class="row-sub">→ Второй блок / после обеда</div></div>
+      <div class="table-row"><div class="row-label" style="color:var(--teal2);">Низкие</div><div class="row-value"><strong>Операционная</strong> — email, отчёты по шаблону</div><div class="row-sub">→ После 16:00</div></div>
+      <div class="table-row"><div class="row-label" style="color:var(--muted);">Мин.</div><div class="row-value"><strong>Рутина</strong> — файлинг, расписание</div><div class="row-sub">→ Любое время</div></div>
+    </div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">ЗАЩИТА ПЕРВОГО ЧАСА</div>
+    <div class="protocol-step"><span class="step-label">#1</span><span class="step-text">Первые 60 минут — без телефона, почты и мессенджеров. Ты создаёшь контекст для дня сам.</span></div>
+    <div class="protocol-step"><span class="step-label">#2</span><span class="step-text">Первая задача дня — из категории «глубокая работа». Не разогревай мозг мелочёвкой.</span></div>
+    <div class="protocol-step"><span class="step-label">#3</span><span class="step-text">Если срочный звонок неизбежен — сначала 5 минут запиши 3 приоритета. Это якорь.</span></div>
+  </div>
+
+  <h2>Цифровая гигиена</h2>
+  <p>Телефон вне спальни. Утро без новостей — минимум 30 минут. Email и мессенджеры — 2–3 раза в день в выделенное время. Правило 20-20-20: каждые 20 минут у экрана — 20 сек смотри на объект в 6+ метрах.</p>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">✓ Чек-лист · Фокус</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Работаю блоками по 90 минут</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Уведомления выключены во время работы</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Утро без телефона 30+ минут</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Сложные задачи — первым блоком дня</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Перерывы без гаджетов (прогулка, взгляд в окно)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">3 приоритета дня — до проверки телефона</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Один 90-минутный спринт с утра заменяет три часа «работы» в режиме постоянных переключений. Задача, на которую в обычном режиме уходил весь день, в первом спринте закрывалась за 80 минут.
+  </div>
+  <p class="transition-note">Энергия есть, фокус защищён. Осталось убедиться, что топливо стабильное. Следующий раздел — питание.</p>
+</div>
+
+<!-- ══ 08 ПИТАНИЕ ════════════════════════════════════════════ -->
+<div class="section" id="s08">
+  <div class="section-tag"><span class="section-num">08</span><span class="section-title">Питание</span></div>
+  <h1>Стабильное топливо</h1>
+  <div class="pull-quote">Еда — это субстрат для митохондрий. Неправильное питание создаёт энергетические качели и разрушает концентрацию.</div>
+
+  <h2>Принцип стабильного сахара крови</h2>
+  <p>Резкий рост глюкозы → выброс инсулина → резкое падение → «яма». Правило каждого приёма пищи: <strong>белок + клетчатка + здоровые жиры + умеренные сложные углеводы.</strong></p>
+
+  <h2>Энергетический шаблон дня</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label">Завтрак</div><div class="row-sub">Через 30–60 мин после подъёма</div><div class="row-value">Белок (яйца, творог, рыба) + жиры (авокадо, орехи) + немного сложных углеводов</div></div>
+      <div class="table-row"><div class="row-label">Обед</div><div class="row-sub">12:00–13:30</div><div class="row-value">Белок + большая порция овощей + сложные углеводы (гречка, рис, бобовые)</div></div>
+      <div class="table-row"><div class="row-label">Перекус</div><div class="row-sub">15:00–16:00 · опционально</div><div class="row-value">Белок + жиры: орехи, яйцо, творог. БЕЗ быстрых углеводов.</div></div>
+      <div class="table-row"><div class="row-label">Ужин</div><div class="row-sub">18:00–20:00</div><div class="row-value">Белок + овощи + умеренные углеводы. Не переедать — нарушает сон.</div></div>
+    </div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">ПРОТОКОЛ КОФЕИНА</div>
+    <div class="protocol-step"><span class="step-label">Когда</span><span class="step-text">Подожди 90–120 мин после пробуждения. Кортизол спадёт — кофеин сработает по-настоящему.</span></div>
+    <div class="protocol-step"><span class="step-label">Стоп</span><span class="step-text">Последняя чашка до 14:00. Период полувыведения 5–7 часов.</span></div>
+    <div class="protocol-step"><span class="step-label">Доза</span><span class="step-text">Максимум 200–400 мг в день (1–2 чашки фильтр-кофе). Больше — нарушение сна.</span></div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">ПРОТИВ ПОСЛЕОБЕДЕННОГО ПРОВАЛА</div>
+    <div class="protocol-step"><span class="step-label">Причина</span><span class="step-text">На 80% — результат углеводного обеда, а не циркадный спад. Измени обед — уменьшишь яму.</span></div>
+    <div class="protocol-step"><span class="step-label">За 30 мин</span><span class="step-text">Стакан воды до обеда. Снизит аппетит и стабилизирует глюкозу.</span></div>
+    <div class="protocol-step"><span class="step-label">Порядок</span><span class="step-text">Сначала овощи и белок — потом углеводы. Снижает инсулиновый пик.</span></div>
+    <div class="protocol-step"><span class="step-label">После</span><span class="step-text">5–10 минут ходьбы. Снижает инсулиновый пик на 20–30%.</span></div>
+    <div class="protocol-step"><span class="step-label">При спаде</span><span class="step-text">Power Nap 20 мин или 10-минутный буст. Не кофе — только откладывает усталость на вечер.</span></div>
+  </div>
+
+  <h2>Нутрицевтическая поддержка</h2>
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label">Магний</div><div class="row-sub">300–400 мг перед сном (цитрат или глицинат)</div><div class="row-value">Активация АТФ, качество сна, снижение тревоги</div></div>
+      <div class="table-row"><div class="row-label">Коэнзим Q10</div><div class="row-sub">100–200 мг с едой</div><div class="row-value">Транспорт электронов в митохондриях, снижается с возрастом</div></div>
+      <div class="table-row"><div class="row-label">Витамин D3+K2</div><div class="row-sub">По результату анализов</div><div class="row-value">Влияет на тестостерон и иммунитет. Дефицит у большинства.</div></div>
+      <div class="table-row"><div class="row-label">Витамины B</div><div class="row-sub">Согласно инструкции</div><div class="row-value">Кофакторы цикла Кребса. Дефицит B12 — частая причина хронической усталости</div></div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">✓ Чек-лист · Питание</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Первый кофе через 90–120 мин после подъёма</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Последний кофе до 14:00</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Белок в каждом приёме пищи (1.6–2.2 г/кг/день)</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Сложные углеводы вместо простых</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">30–35 мл воды на 1 кг веса в день</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-text">Стакан воды сразу после подъёма</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Послеобеденный провал я считал нормой несколько лет. Когда перешёл на «овощи и белок сначала» и добавил 5 минут ходьбы после еды — провал исчез за 3 дня. Это управление биохимией.
+  </div>
+</div>
+
+<!-- ══ 09 ОШИБКИ ═════════════════════════════════════════════ -->
+<div class="section" id="s09">
+  <div class="section-tag"><span class="section-num">09</span><span class="section-title">Ошибки</span></div>
+  <h1>Что обнуляет систему</h1>
+  <p>Знать — недостаточно. Вот что чаще всего разрушает прогресс даже у тех, кто понимает механику.</p>
+
+  <div class="table-wrap">
+    <div class="mobile-table">
+      <div class="table-row"><div class="row-label">«Прорваться» через усталость</div><div class="row-value">Организм переходит в кортизольный режим. Краткосрочно — работаешь. Долгосрочно — выгорание.</div></div>
+      <div class="table-row"><div class="row-label">Некачественные перерывы</div><div class="row-value">Соцсети — это не отдых. Смена источника стимуляции при той же нагрузке на ПФК.</div></div>
+      <div class="table-row"><div class="row-label">Кофе сразу после подъёма</div><div class="row-value">Нарушает цикл кортизола. Растущая зависимость и провал в 14–16 часов.</div></div>
+      <div class="table-row"><div class="row-label">Синий свет поздно вечером</div><div class="row-value">Блокирует мелатонин. Ты лежишь в темноте, но система восстановления не запущена.</div></div>
+      <div class="table-row"><div class="row-label">Многозадачность</div><div class="row-value">Мозг только переключается. Каждое переключение стоит 10–15 минут на вхождение в контекст.</div></div>
+      <div class="table-row"><div class="row-label">Нерегулярность</div><div class="row-value">Циркадная система любит предсказуемость. Хаотичный режим = отсутствие режима.</div></div>
+    </div>
+  </div>
+
+  <div class="protocol-box">
+    <div class="protocol-title">PRIME ENERGY RESET · Экстренное восстановление</div>
+    <div class="protocol-step"><span class="step-label">1</span><span class="step-text">5 минут на улице или у открытого окна. Свет и воздух сбрасывают кортизольный режим.</span></div>
+    <div class="protocol-step"><span class="step-label">2</span><span class="step-text">Стакан воды. Обезвоживание на 1–2% снижает концентрацию — это часто единственная причина спада.</span></div>
+    <div class="protocol-step"><span class="step-label">3</span><span class="step-text">20 приседаний или выпадов. Движение запускает выброс норадреналина.</span></div>
+    <div class="protocol-step"><span class="step-label">4</span><span class="step-text">Дыхание 4-7-8: 4 сек вдох — 7 задержка — 8 выдох. 4–5 циклов. Активирует парасимпатику.</span></div>
+    <div class="protocol-step"><span class="step-label">5</span><span class="step-text">Запиши одну задачу на следующий час. Конкретный фокус восстанавливает управление ПФК.</span></div>
+  </div>
+  <p style="font-size:13px; color:var(--muted); margin-top:8px;">Весь протокол — 10–12 минут. Возвращает работоспособность на 60–90 минут без стимуляторов.</p>
+
+  <h2>Воскресный аудит: система поддержания</h2>
+  <div class="protocol-box">
+    <div class="protocol-title">ВОСКРЕСНЫЙ АУДИТ · 15 минут</div>
+    <div class="protocol-step"><span class="step-label">1 · 5 мин</span><span class="step-text">Energy Review: оцени среднюю энергию за неделю (1–10). Отметь 2 пиковых и 2 провальных дня.</span></div>
+    <div class="protocol-step"><span class="step-label">2 · 3 мин</span><span class="step-text">Привычки: какие выполнялись стабильно? Какие пропускались? Не ищи виновных — ищи паттерн.</span></div>
+    <div class="protocol-step"><span class="step-label">3 · 2 мин</span><span class="step-text">Одна главная утечка недели. Одна. Что сделаешь с ней на следующей неделе?</span></div>
+    <div class="protocol-step"><span class="step-label">4 · 2 мин</span><span class="step-text">Что сработало лучше всего? Одно действие, которое дало результат. Закрепи его.</span></div>
+    <div class="protocol-step"><span class="step-label">5 · 3 мин</span><span class="step-text">1–2 новых действия на следующую неделю. Не список из 10. Система строится итерациями.</span></div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">📋 Шаблон воскресного аудита</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Заполни каждое воскресенье вечером</p>
+      <textarea class="transform-input" rows="2" placeholder="Средняя энергия недели: ___ / 10  |  Пиковые дни: ___"></textarea>
+      <textarea class="transform-input" rows="2" placeholder="Провальные дни: ___  |  Причина: ___" style="margin-top:8px;"></textarea>
+      <textarea class="transform-input" rows="2" placeholder="Главная утечка недели..." style="margin-top:8px;"></textarea>
+      <textarea class="transform-input" rows="2" placeholder="Что сработало лучше всего..." style="margin-top:8px;"></textarea>
+      <textarea class="transform-input" rows="2" placeholder="1–2 действия на следующую неделю..." style="margin-top:8px;"></textarea>
+    </div>
+  </div>
+
+  <h2>Протокол возврата: если слетел с системы</h2>
+  <div class="info-block">
+    <div class="info-block-title">День 1 после сбоя</div>
+    <ul>
+      <li><strong>День 1:</strong> Только ежедневный минимум. Свет, вода, один спринт, нет экранов до сна.</li>
+      <li><strong>День 2–3:</strong> Добавь сон и движение. Остальное — пока в сторону.</li>
+      <li><strong>День 4–7:</strong> Постепенно возвращай остальные привычки. По одной в день.</li>
+    </ul>
+    <p style="font-size:12px; color:var(--muted); margin-top:12px; font-style:italic;">Скорость возврата важнее полноты возврата. Частичная система — лучше, чем никакой.</p>
+  </div>
+</div>
+
+<!-- ══ 10 14 ДНЕЙ ════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-tag"><span class="section-num">10</span><span class="section-title">Система внедрения</span></div>
+  <h1>План на 14 дней</h1>
+  <div class="pull-quote">Одно правило: не пытайся внедрить всё одновременно. Система строится последовательностью, а не усилием воли.</div>
+
+  <div class="key-insight">
+    <div class="key-insight-label">Ежедневный минимум — все 14 дней</div>
+    · Утренний свет — 10 минут<br>
+    · Стакан воды после подъёма<br>
+    · Один 90-минутный спринт без уведомлений<br>
+    · Нет экранов за 1 час до сна
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">Дни 1–3 · Фундамент</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; font-style:italic;">Дай организму чёткие сигналы о времени суток. Убери главные утечки.</p>
+      <div class="table-wrap" style="margin:0;">
+        <div class="mobile-table">
+          <div class="table-row"><div class="row-label">Световой якорь утром</div><div class="row-value">10–15 минут яркого света в первый час после подъёма</div></div>
+          <div class="table-row"><div class="row-label">Вечерний детокс</div><div class="row-value">Убери телефон за 1 час до сна</div></div>
+          <div class="table-row"><div class="row-label">Гидратация</div><div class="row-value">Стакан воды утром + отслеживай дневную норму</div></div>
+          <div class="table-row"><div class="row-label">Тестовый спринт</div><div class="row-value">Один рабочий блок 90 минут без уведомлений</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">Дни 4–6 · Ритм</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; font-style:italic;">Переводи рабочий день на ультрадианные циклы.</p>
+      <div class="table-wrap" style="margin:0;">
+        <div class="mobile-table">
+          <div class="table-row"><div class="row-label">Система 90/20</div><div class="row-value">Весь рабочий день — блоки 90 мин + 20 мин отдыха</div></div>
+          <div class="table-row"><div class="row-label">Стратегический кофеин</div><div class="row-value">Первый кофе через 90–120 минут после подъёма</div></div>
+          <div class="table-row"><div class="row-label">Протокол завершения дня</div><div class="row-value">Список задач на завтра каждый вечер — 5 минут</div></div>
+          <div class="table-row"><div class="row-label">Утро без соцсетей</div><div class="row-value">30 минут утра — без телефона и новостей</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">Дни 7–9 · Движение</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; font-style:italic;">Запускай митохондриальный биогенез.</p>
+      <div class="table-wrap" style="margin:0;">
+        <div class="mobile-table">
+          <div class="table-row"><div class="row-label">Zone 2</div><div class="row-value">2–3 прогулки по 35–40 минут в аэробном режиме</div></div>
+          <div class="table-row"><div class="row-label">Микро-движение</div><div class="row-value">Каждые 60 минут — 3-минутный сброс напряжения</div></div>
+          <div class="table-row"><div class="row-label">Контрастный душ</div><div class="row-value">30–60 секунд холодной воды в конце душа</div></div>
+          <div class="table-row"><div class="row-label">Телефон вне спальни</div><div class="row-value">Будильник — отдельное устройство</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">Дни 10–12 · Питание</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; font-style:italic;">Стабилизируй топливо. Убери скачки сахара.</p>
+      <div class="table-wrap" style="margin:0;">
+        <div class="mobile-table">
+          <div class="table-row"><div class="row-label">Белок в каждом приёме</div><div class="row-value">Минимум 1.6 г на кг веса в день</div></div>
+          <div class="table-row"><div class="row-label">Замена углеводов</div><div class="row-value">Один приём — замени простые углеводы на сложные</div></div>
+          <div class="table-row"><div class="row-label">Аудит энергии</div><div class="row-value">Записывай ямы: когда, после чего, как долго</div></div>
+          <div class="table-row"><div class="row-label">Первая HIIT</div><div class="row-value">20-минутная высокоинтенсивная тренировка</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
+      <span class="acc-title">Дни 13–14 · Консолидация</span>
+      <span class="acc-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="accordion-body">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; font-style:italic;">Фиксируй результаты. Выбирай что оставить навсегда.</p>
+      <div class="table-wrap" style="margin:0;">
+        <div class="mobile-table">
+          <div class="table-row"><div class="row-label">Повтор диагностики</div><div class="row-value">Заполни Energy Score — сравни с первым замером</div></div>
+          <div class="table-row"><div class="row-label">Анализ</div><div class="row-value">Что сработало? Что сложно? Только данные.</div></div>
+          <div class="table-row"><div class="row-label">Выбор 3–5 привычек</div><div class="row-value">Это войдёт в твою постоянную систему навсегда</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 11 ТРЕКЕР ═════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-tag"><span class="section-num">11</span><span class="section-title">Трекер</span></div>
+  <h1>Трекер привычек</h1>
+  <p>Нажимай на день чтобы отметить выполнение. <strong style="color:var(--accent);">Золотой</strong> — выполнено, <strong style="color:var(--accent); opacity:0.5;">тусклый</strong> — частично.</p>
+
+  <div class="tracker-wrap" id="tracker">
+    <!-- Generated by JS -->
+  </div>
+</div>
+
+<!-- ══ 12 ИТОГ ═══════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-tag"><span class="section-num">12</span><span class="section-title">Итог</span></div>
+  <h1>Трансформация</h1>
+  <div class="pull-quote">Энергия — не статичный ресурс. Это управляемая система. И теперь ты знаешь как ею управлять.</div>
+
+  <p>Через 14 дней системной работы изменения будут заметны. Не потому что произошло чудо — а потому что ты перестал воевать с биологией и начал с ней сотрудничать.</p>
+
+  <div class="transform-item">
+    <div class="transform-area">Ясность мышления</div>
+    <div class="transform-what">Уходит мозговой туман. ПФК перестаёт работать на износ.</div>
+    <textarea class="transform-input" rows="2" placeholder="Моё наблюдение..."></textarea>
+  </div>
+  <div class="transform-item">
+    <div class="transform-area">Стабильная энергия</div>
+    <div class="transform-what">Нет дневных провалов. Тело производит АТФ ровнее.</div>
+    <textarea class="transform-input" rows="2" placeholder="Моё наблюдение..."></textarea>
+  </div>
+  <div class="transform-item">
+    <div class="transform-area">Меньше нужда в кофеине</div>
+    <div class="transform-what">Организм восстанавливает собственные механизмы бодрости.</div>
+    <textarea class="transform-input" rows="2" placeholder="Моё наблюдение..."></textarea>
+  </div>
+  <div class="transform-item">
+    <div class="transform-area">Качественный сон</div>
+    <div class="transform-what">Быстрее засыпаешь, глубже спишь, просыпаешься отдохнувшим.</div>
+    <textarea class="transform-input" rows="2" placeholder="Моё наблюдение..."></textarea>
+  </div>
+  <div class="transform-item">
+    <div class="transform-area">Эмоциональная устойчивость</div>
+    <div class="transform-what">Меньше реактивности. Витальность — буфер против стресса.</div>
+    <textarea class="transform-input" rows="2" placeholder="Моё наблюдение..."></textarea>
+  </div>
+
+  <div class="divider"></div>
+
+  <p>Ты дочитал. Это уже отличает тебя от большинства. Знание без действия — это просто информация. Меняет только одно: первый конкретный шаг, сделанный сегодня.</p>
+  <p>Не завтра. Не «с понедельника». Сегодня — одно действие из этого модуля.</p>
+
+  <div class="final-action">
+    <div class="final-action-title">СЛЕДУЮЩИЙ ШАГ — ПРЯМО СЕЙЧАС</div>
+    <p style="font-size:14px; margin-bottom:8px;">Моё действие на сегодня:</p>
+    <input type="text" placeholder="Напиши одно конкретное действие...">
+    <div class="date-row">
+      <input type="text" placeholder="Дата старта">
+      <input type="text" placeholder="Дата проверки">
+    </div>
+  </div>
+
+  <div class="author-note">
+    <div class="author-note-label">От автора</div>
+    Этот модуль я писал для себя — того, которым был несколько лет назад. Если бы у меня тогда был такой документ, я сэкономил бы несколько лет и немало здоровья.<br><br>
+    <strong style="color:var(--teal2);">Начни. Система работает.</strong>
+  </div>
+
+  <div class="divider"></div>
+  <p style="text-align:center; font-size:12px; color:var(--muted);">
+    <strong style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--accent); letter-spacing:3px;">PRIME SYSTEM</strong><br>
+    Модуль 1: Энергия
+  </p>
+</div>
+
+</div><!-- /content -->
+
+<button id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+// ── PROGRESS BAR ─────────────────────────────────────────
+const progressBar = document.getElementById('progress-bar');
+const scrollTop = document.getElementById('scrolltop');
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+  scrollTop.classList.toggle('show', scrolled > 300);
+  updateActiveNav();
+}, { passive: true });
+
+// ── ACTIVE NAV ────────────────────────────────────────────
+function updateActiveNav() {
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+}
+
+// ── ACCORDION ─────────────────────────────────────────────
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// ── CHECKLIST ─────────────────────────────────────────────
+function toggleCheck(li) {
+  const box = li.querySelector('.check-box');
+  const done = box.classList.toggle('done');
+  li.classList.toggle('done-item', done);
+}
+
+// ── DIAGNOSTIC ───────────────────────────────────────────
+const scores = new Array(10).fill(-1);
+
+function setQ(q, val) {
+  scores[q] = val;
+  const opts = document.querySelectorAll(`.diagnostic-q:nth-child(${q+1}) .q-btn`);
+  opts.forEach((b, i) => b.classList.toggle('sel', i === val));
+  updateScore();
+}
+
+function updateScore() {
+  const answered = scores.filter(s => s >= 0).length;
+  if (answered < 10) return;
+  const total = scores.reduce((a, b) => a + b, 0);
+  const result = document.getElementById('score-result');
+  result.classList.add('show');
+  document.getElementById('score-num').textContent = total;
+  document.getElementById('score-bar').style.width = (total / 30 * 100) + '%';
+
+  let label, desc;
+  if (total >= 25) { label = 'ВЫСОКИЙ'; desc = 'Система работает. Тонкая настройка и поддержание.'; }
+  else if (total >= 16) { label = 'СРЕДНИЙ'; desc = 'Есть зоны потерь. Протоколы дадут быстрый результат.'; }
+  else if (total >= 8) { label = 'НИЗКИЙ'; desc = 'Серьёзный дефицит. Начни с базы: сон, свет, вода.'; }
+  else { label = 'КРИТИЧЕСКИЙ'; desc = 'Организм на резервах. Только ежедневный минимум — первые 7 дней.'; }
+
+  document.getElementById('score-label').textContent = label + ' · ' + total + ' из 30';
+  document.getElementById('score-desc').textContent = desc;
+}
+
+// ── TRACKER ──────────────────────────────────────────────
+const habits = [
+  'Утренний свет (10+ мин)',
+  'Стакан воды утром',
+  'Первый кофе через 90+ мин',
+  'Рабочий спринт 90 мин',
+  'Перерыв без гаджетов',
+  'Zone 2 / тренировка',
+  'Микродвижение каждый час',
+  'Нет экранов за 1 ч до сна',
+  'Задачи на завтра записал',
+  'Сон 7–9 часов',
+];
+
+const trackerState = {};
+
+function buildTracker() {
+  const wrap = document.getElementById('tracker');
+  habits.forEach((habit, hi) => {
+    trackerState[hi] = new Array(14).fill(0);
+    const div = document.createElement('div');
+    div.className = 'tracker-habit';
+    div.innerHTML = `<div class="tracker-habit-name">${habit}</div><div class="tracker-days" id="td-${hi}"></div>`;
+    wrap.appendChild(div);
+
+    const days = div.querySelector('.tracker-days');
+    for (let d = 1; d <= 14; d++) {
+      const btn = document.createElement('div');
+      btn.className = 'tracker-day';
+      btn.textContent = d;
+      btn.onclick = () => cycleDay(hi, d-1, btn);
+      days.appendChild(btn);
+    }
+  });
+}
+
+function cycleDay(hi, di, btn) {
+  const cur = trackerState[hi][di];
+  const next = (cur + 1) % 3;
+  trackerState[hi][di] = next;
+  btn.classList.remove('done', 'partial');
+  if (next === 1) btn.classList.add('done');
+  if (next === 2) btn.classList.add('partial');
+}
+
+buildTracker();
+</script>
+</body>
+</html>
